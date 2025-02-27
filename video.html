@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="video-player">
+        <iframe width="560" height="315" src="" title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+         referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+         <br>
+         <div id="comment-box">
+            <textarea name="commentBOX" id=""></textarea>
+            <button>Comment</button>
+         </div>
+         
+        <script>
+            
+            const iframe = document.querySelector('iframe')
+            const [a, videoId] = window.location.search.split("=");
+            iframe.src = `https://www.youtube.com/embed/${videoId}`
+
+            const ytHistory = localStorage.getItem("yt_history");
+            if(!ytHistory){
+                const newHistory = [];
+                newHistory.push(videoId);
+                localStorage.setItem("yt_history", JSON.stringify( newHistory));
+            }else{
+                const newHistory = JSON.parse(ytHistory);
+                newHistory.push(videoId);
+                localStorage.setItem("yt_history", JSON.stringify( newHistory));
+            }
+            const saveComments = (event)=>{
+                const comments = localStorage.getItem("comments");
+            if(!comments){
+                const myComments = [];
+                myComments.push({
+                                    vidId:videoId,
+                                    vidComments:[]
+                });
+                localStorage.setItem("comments", JSON.stringify(myComments))
+            }else{
+                const myComments = JSON.parse(comments);
+                myComments.push({
+                    vidId:videoId,
+                    vidComments:[]
+                });
+                localStorage.setItem("comments", JSON.stringify(myComments));
+            }
+            }
+            
+        </script>
+    </div>
+</body>
+</html>
